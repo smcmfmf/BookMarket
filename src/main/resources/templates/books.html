@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> <!-- 자동 완성을 위해서 선언함 -->
 <head>
     <meta charset="UTF-8">
-    <title>Welcome BookMarket</title>
+    <title>도서 목록</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
@@ -72,47 +72,18 @@
 
         <div class="p-5 mb-4 bg-body-tertiary rounded-3">
             <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">도서 쇼핑몰에 오신 것을 환영합니다!</h1>
+                <h1 class="display-5 fw-bold">도서 목록</h1>
                 <p class="col-md-8 fs-4">BookMarket</p>
             </div>
         </div>
 
-        <div class="row align-items-md-stretch text-cnet">
-            <div class="col-md-12">
-                <div class="h-100 p-5">
-                    <h2>Welcome to Web Market</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="row align-items-md-stretch text-cnet">
-            <div class="col-md-4">
-                <h4>
-                    <svg height="40px" width="40px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                         viewBox="0 0 512 512"  xml:space="preserve">
-<style type="text/css">
-	.st0{fill:#000000;}
-</style>
-                        <g>
-	<path class="st0" d="M256,0.004C114.609,0.021,0.016,114.613,0,256.004c0.016,141.39,114.609,255.974,256,255.992
-		c141.39-0.017,255.983-114.601,256-255.992C511.983,114.613,397.39,0.021,256,0.004z M406.683,406.68
-		c-38.63,38.596-91.774,62.403-150.683,62.412c-58.91-0.009-112.054-23.815-150.684-62.412
-		c-38.596-38.631-62.403-91.767-62.412-150.676c0.009-58.909,23.815-112.053,62.412-150.684
-		C143.955,66.724,197.09,42.917,256,42.909c58.909,0.008,112.045,23.815,150.683,62.412c38.598,38.631,62.404,91.775,62.413,150.684
-		C469.087,314.913,445.281,368.049,406.683,406.68z"/>
-                            <path class="st0" d="M256,61.888C148.94,61.905,61.909,148.945,61.892,256.004C61.909,363.047,148.94,450.095,256,450.112
-		c107.058-0.017,194.09-87.065,194.108-194.108C450.09,148.945,363.058,61.905,256,61.888z M381.058,381.063
-		C348.981,413.116,304.795,432.95,256,432.95c-48.796,0-92.99-19.827-125.058-51.887c-32.062-32.078-51.888-76.264-51.888-125.059
-		c0-48.803,19.826-92.989,51.888-125.058C163.01,98.877,207.204,79.05,256,79.05c48.795,0,92.981,19.827,125.058,51.896
-		c32.06,32.069,51.887,76.255,51.887,125.058C432.946,304.799,413.119,348.985,381.058,381.063z"/>
-                            <path class="st0" d="M198.8,226.306c-17.967,0-32.564,14.598-32.564,32.556s14.598,32.555,32.564,32.555
-		c17.949,0,32.546-14.597,32.546-32.555S216.75,226.306,198.8,226.306z"/>
-                            <path class="st0" d="M313.2,226.306c-17.949,0-32.547,14.598-32.547,32.556s14.598,32.555,32.547,32.555
-		c17.966,0,32.563-14.597,32.563-32.555S331.165,226.306,313.2,226.306z"/>
-</g>
-</svg>
-                    <a href="/BookMarket/books" class="d-flex align-items-center text-body-emphasis text-decoration-none">목록 보기</a>
-                </h4>
+        <div class="row align-items-md-stretch text-center">
+            <div class="col-md-4" th:each="book:${bookList}"> <!-- 서비스 객체에서의 bookList를 참조값을 지역변수인 book에 저장함 -->
+                <h3 th:text="${book.name}"></h3> <!-- 지역변수 book에서 책 이름을 가져와서 태그에 데이터로 넣음 -->
+                <p th:text="${book.getAuthor()}"></p>
+                <p th:text="${book.getPublisher() + ' || ' + book.getCategory() + ' || ' + book.getReleaseDate()}"></p> <!-- 큰 따옴표 안에는 작음 따음표 사용! -->
+                <p th:text="${book.getDescription()}" align="left"></p> <!-- css에서 사용하지 않아서 취소선이 표시되지만 작동됨 -->
+                <p th:text="${book.getUnitPrice() + '원'}"></p>
             </div>
         </div>
 

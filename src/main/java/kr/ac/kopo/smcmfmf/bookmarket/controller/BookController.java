@@ -15,8 +15,8 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @RequestMapping(value = "/books", method = RequestMethod.GET) // 출력할 페이지
-    public String requestBookList(Model model) { // HTML에서 사용할 수 있도록
+    @RequestMapping(value = "/books", method = RequestMethod.GET) // 출력할 페이지 설정
+    public String requestBookList(Model model) { // HTML에서 사용할 수 있도록 참조값을 반환
         List<Book> bookList = bookService.getAllBookList();
         model.addAttribute("bookList", bookList); // 도서 리스트를 사용함
         return "books";

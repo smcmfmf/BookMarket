@@ -47,7 +47,7 @@ public class BookRepositoryImpl implements BookRepository{
 
         Book book3 = new Book();
         book3.setBookId("isbn0003");
-        book3.setName("PSIM을 활용한 전력전자공학 실습");
+        book3.setName("'PSIM'을 활용한 전력전자공학 실습");
         // book3.setUnitPrice(new BigDecimal(32000));
         book3.setUnitPrice(BigDecimal.valueOf(32000));
         book3.setAuthor("박영수");

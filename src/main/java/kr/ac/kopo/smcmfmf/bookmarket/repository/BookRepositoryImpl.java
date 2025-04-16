@@ -79,10 +79,21 @@ public class BookRepositoryImpl implements BookRepository{
                 break;
             }
         }
-        if(bookInfo == null){
+        if(bookInfo == null){ // 도서 정보가 하나도 없을 때 강제로 예외를 발생 시킴
             throw new IllegalArgumentException("도서 번호가 " + bookId + "인 해당 도서를 찾을 수 없습니다.");
         }
 
         return bookInfo;
+    }
+
+    @Override
+    public List<Book> getBookByCategory(String category) {
+        List<Book> booksByCategory = new ArrayList<>();
+        for(Book book : listOfBooks){
+            if(book.getCategory() != null && book.getCategory().equals(category)){
+                booksByCategory.add(book);
+            }
+        }
+        return booksByCategory;
     }
 }

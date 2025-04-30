@@ -4,11 +4,10 @@ import kr.ac.kopo.smcmfmf.bookmarket.domain.Book;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Repository
-public class BookRepositoryImpl implements BookRepository{
+public abstract class BookRepositoryImpl implements BookRepository{
     private List<Book> listOfBooks = new ArrayList<Book>();
 
     public BookRepositoryImpl() {
@@ -60,9 +59,27 @@ public class BookRepositoryImpl implements BookRepository{
         book3.setReleaseDate("2024.09.25");
         book3.setCondition("신규 도서");
 
+        Book book4 = new Book();
+        book4.setBookId("isbn0004");
+        book4.setName("리액트의 정석 with 타입스크립트");
+        // book3.setUnitPrice(new BigDecimal(32000));
+        book4.setUnitPrice(BigDecimal.valueOf(34000));
+        book4.setAuthor("이창현");
+        book4.setDescription("《리액트의 정석 with 타입스크립트》는 기존의 리액트 및 타입스크립트 학습서들과는 전혀 다른 시각에서 구성되었습니다." +
+                "단순히 타입스크립트 기반에서 리액트만 다루는 것이 아니라 그 근본이 되는 프로그래밍 원리" +
+                "부터 객체지향 개념, 타입스크립트의 기초까지 탄탄히 익힐 수 있도록 설계되었습니다.");
+        book4.setPublisher("길벗캠퍼스");
+        book4.setCategory("IT 교재");
+        book4.setUnitsInStock(164);
+        book4.setReleaseDate("2025.03.31");
+        book4.setCondition("신규 도서");
+
+        // 리액트의 정석 with 타입스크립트 도서 추가
+
         listOfBooks.add(book1); // 도서 데이터 저장
         listOfBooks.add(book2);
         listOfBooks.add(book3);
+        listOfBooks.add(book4);
     }
 
     @Override
@@ -94,6 +111,37 @@ public class BookRepositoryImpl implements BookRepository{
                 booksByCategory.add(book);
             }
         }
+        return booksByCategory;
+    }
+
+    @Override
+    public Set<Book> getBookListByFilter(Map<String, List<String>> filter) {
+        Set<Book> booksByPublisher = new HashSet<Book>(); // 해당되는 출판사의 북 객체 저장
+        Set<Book> booksByCategory = new HashSet<Book>(); // 해당되는 카테고리의 북 객체 저장
+        Set<String> booksByFilter = filter.keySet();
+
+        if(booksByFilter.contains("publisher")){
+            for(int i = 0; i < filter.get("publisher").size(); i++){
+                String publisherName = filter.get("publisher").get(i);
+                for(Book book : listOfBooks){
+                    if(publisherName.equalsIgnoreCase(book.getPublisher())){
+                        booksByPublisher.add(book);
+                    }
+                }
+            }
+        }
+
+        if(booksByCategory.contains("category")){
+            for(int i = 0; i < filter.get("category").size(); i++){
+                String categoryName = filter.get("category").get(i);
+                List<Book> list = getBookByCategory(categoryName);
+                booksByCategory.addAll(list);
+            }
+        }
+
+        // 저장된 요소 중에서 2개의 Set 값을 비교하여 같은 값만 남기고 나머지는 제거하는 역할(교집합만 남김)
+        booksByCategory.retainAll(booksByPublisher);
+
         return booksByCategory;
     }
 }

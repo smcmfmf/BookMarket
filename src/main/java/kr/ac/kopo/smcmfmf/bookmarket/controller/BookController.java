@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/books")
@@ -43,6 +45,13 @@ public class BookController {
     public String requestBookByCategory(@PathVariable("category") String category, Model model) {
         List<Book> bookByCategory = bookService.getBookByCategory(category); /* 선택한 카테고리로 정렬된 리스트 */
         model.addAttribute("bookList", bookByCategory);
+        return "books";
+    }
+
+    @GetMapping("/filter/{bookFilter}")
+    public String requestBookByFilter(@MatrixVariable(pathVar = "bookFilter") Map<String, List<String>> bookFilter, Model model) {
+        Set<Book> booksByFilter = bookService.getBookListByFilter(bookFilter); /* 서비스 객체에서 값을 가져옴 */
+        model.addAttribute("bookList", booksByFilter);
         return "books";
     }
 }

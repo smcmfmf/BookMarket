@@ -64,16 +64,16 @@ public class BookController {
     @PostMapping("/add")
     public String requestSubmitNewBook(@ModelAttribute("book") Book book) {
         bookService.setNewBook(book);
-        return "redirect:/books"; // 등록된 도서를 도서 목록에서 출력함
+        return "redirect:/books";
     }
 
     @ModelAttribute
-    public void addBookAttribute(Model model) {
+    public void addAttributes(Model model) {
         model.addAttribute("addTitle", "신규 도서 등록");
     }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description", "publisher", "category", "unitsInStock", "releaseDate", "condition");
+        binder.setAllowedFields("bookId", "name", "unitPrice","author", "description", "publisher", "category", "unitsInStock", "releaseDate", "condition");
     }
 }

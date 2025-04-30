@@ -1,14 +1,16 @@
 package kr.ac.kopo.smcmfmf.bookmarket.domain;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
-@NoArgsConstructor // 공백 주의
+@Data
+//@Getter
+//@Setter
+//@NoArgsConstructor // 공백 주의
 public class Book {
     private String bookId; // 도서번호
     private String name; // 도서명

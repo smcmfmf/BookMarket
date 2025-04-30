@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 @Repository
-public class BookRepositoryImpl implements BookRepository {
+public abstract class BookRepositoryImpl implements BookRepository {
     private List<Book> listOfBooks = new ArrayList<Book>();
 
     public BookRepositoryImpl() {
@@ -122,5 +122,10 @@ public class BookRepositoryImpl implements BookRepository {
         booksByCategory.retainAll(booksByPublisher);
 
         return booksByCategory;
+    }
+
+    @Override
+    public void setNewBook(Book book) {
+        listOfBooks.add(book);
     }
 }

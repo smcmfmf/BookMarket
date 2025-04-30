@@ -18,39 +18,39 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @GetMapping // 출력할 페이지 설정
-    public String requestBookList(Model model) { // HTML에서 사용할 수 있도록 참조값을 반환
+    @GetMapping
+    public String requestBookList(Model model) {
         List<Book> bookList = bookService.getAllBookList();
-        model.addAttribute("bookList", bookList); // 도서 리스트를 사용함
+        model.addAttribute("bookList", bookList);
         return "books";
     }
 
-    @GetMapping(value = "/all") // 출력할 페이지 설정
-    public ModelAndView requestAllBookList() { // HTML에서 사용할 수 있도록 참조값을 반환
+    @GetMapping("/all")
+    public ModelAndView requestAllBookList() {
         ModelAndView modelV = new ModelAndView();
         modelV.setViewName("books");
         List<Book> bookList = bookService.getAllBookList();
-        modelV.addObject("bookList", bookList); // 도서 리스트를 사용함
+        modelV.addObject("bookList", bookList);
         return modelV;
     }
 
-    @GetMapping("book")
+    @GetMapping("/book")
     public String requestBookById(@RequestParam("id") String bookId, Model model) {
         Book book = bookService.getBookById(bookId);
-        model.addAttribute("book", book); /* 뷰 객체로 값을 보냄 */
+        model.addAttribute("book", book);
         return "book";
     }
 
     @GetMapping("/{category}")
-    public String requestBookByCategory(@PathVariable("category") String category, Model model) {
-        List<Book> bookByCategory = bookService.getBookByCategory(category); /* 선택한 카테고리로 정렬된 리스트 */
-        model.addAttribute("bookList", bookByCategory);
+    public String requestBooksByCategory(@PathVariable("category")String category, Model model) {
+        List<Book> booksByCategory = bookService.getBookListByCategory(category);
+        model.addAttribute("bookList", booksByCategory);
         return "books";
     }
 
     @GetMapping("/filter/{bookFilter}")
-    public String requestBookByFilter(@MatrixVariable(pathVar = "bookFilter") Map<String, List<String>> bookFilter, Model model) {
-        Set<Book> booksByFilter = bookService.getBookListByFilter(bookFilter); /* 서비스 객체에서 값을 가져옴 */
+    public String requestBooksByFilter(@MatrixVariable(pathVar = "bookFilter")Map<String, List<String>> bookFilter, Model model) {
+        Set<Book> booksByFilter = bookService.getBookListByFilter(bookFilter);
         model.addAttribute("bookList", booksByFilter);
         return "books";
     }

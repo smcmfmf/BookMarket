@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
-public abstract class BookServiceImpl implements BookService{
+public class BookServiceImpl implements BookService {
 
-    @Autowired // 객체 참조 자동 주입
+    @Autowired
     private BookRepository bookRepository;
 
     @Override
@@ -20,20 +20,20 @@ public abstract class BookServiceImpl implements BookService{
         return bookRepository.getAllBookList();
     }
 
+    @Override
     public Book getBookById(String bookId) {
-        Book bookInfo = bookRepository.getBookById(bookId);
-        return bookInfo;
+        Book book = bookRepository.getBookById(bookId);
+        return book;
     }
 
     @Override
-    public List<Book> getBookByCategory(String category) {
-        List<Book> booksByCategory = bookRepository.getBookByCategory(category);
+    public List<Book> getBookListByCategory(String category) {
+        List<Book> booksByCategory = bookRepository.getBookListByCategory(category);
         return booksByCategory;
     }
 
     @Override
-    public Set<Book> getBookListByFilter(Map<String, List<String>> filter)
-    {
+    public Set<Book> getBookListByFilter(Map<String, List<String>> filter) {
         Set<Book> booksByFilter = bookRepository.getBookListByFilter(filter);
         return booksByFilter;
     }

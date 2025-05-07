@@ -82,6 +82,7 @@
 
         <div class="row align-items-md-stretch text-center">
             <div class="col-md-4" th:each="book:${bookList}"> <!-- 서비스 객체에서의 bookList를 참조값을 지역변수인 book에 저장함 -->
+                <img th:src="'/BookMarket/images/' + ${book.getFileName()}" alt="image" style="width: 60%">
                 <h3 th:text="${book.getName()}"></h3> <!-- 지역변수 book에서 책 이름을 가져와서 태그에 데이터로 넣음 -->
                 <p th:text="${book.getAuthor()}"></p>
                 <p th:text="${book.getPublisher() + ' || ' + book.getCategory() + ' || ' + book.getReleaseDate()}"></p> <!-- 큰 따옴표 안에는 작음 따음표 사용! -->

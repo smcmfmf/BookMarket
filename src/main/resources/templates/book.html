@@ -78,7 +78,13 @@
         </div>
 
         <div class="row align-items-md-stretch">
-            <div class="col-md-12"> <!-- 서비스 객체에서의 bookList를 참조값을 지역변수인 book에 저장함 -->
+            <div class="col-md-4">
+                <img th:src="'/BookMarket/images/' + ${book.getFileName()}" alt="image" style="width: 90%">
+                <div class="text-center">
+                    <a style="text-decoration-line: none" th:href="@{download(file = ${book.getFileName()})}">이미지 다운로드</a>
+                </div>
+            </div>
+            <div class="col-md-8"> <!-- 서비스 객체에서의 bookList를 참조값을 지역변수인 book에 저장함 -->
                 <h3 th:text="${book.getName()}"></h3> <!-- 지역변수 book에서 책 이름을 가져와서 태그에 데이터로 넣음 -->
                 <p th:text="${book.getDescription()}"></p>
                 <br>

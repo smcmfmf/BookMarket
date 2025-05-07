@@ -13,7 +13,7 @@ public class BookRepositoryImpl implements BookRepository {
     public BookRepositoryImpl() {
         Book book1 = new Book();
         book1.setBookId("isbn0001");
-        book1.setName("스프링부트완전정복");
+        book1.setName("스프링 부트 완전정복");
         book1.setUnitPrice(BigDecimal.valueOf(35000));
         book1.setAuthor("송미영");
         book1.setDescription("스프링 부트는 스프링을 기반으로 쉽고 빠르게 웹 애플리케이션을 개발할 수 있는 도구이다. " +
@@ -25,6 +25,7 @@ public class BookRepositoryImpl implements BookRepository {
         book1.setUnitsInStock(1000);
         book1.setReleaseDate("2024/12/31");
         book1.setCondition("신규도서");
+        book1.setFileName("isbn0001.jpg");
 
         Book book2 = new Book();
         book2.setBookId("isbn0002");
@@ -40,6 +41,7 @@ public class BookRepositoryImpl implements BookRepository {
         book2.setUnitsInStock(800);
         book2.setReleaseDate("2024/01/19");
         book2.setCondition("신규도서");
+        book2.setFileName("isbn0002.jpg");
 
         Book book3 = new Book();
         book3.setBookId("isbn0003");
@@ -54,6 +56,7 @@ public class BookRepositoryImpl implements BookRepository {
         book3.setUnitsInStock(1000);
         book3.setReleaseDate("2020/12/21");
         book3.setCondition("신규도서");
+        book3.setFileName("isbn0003.jpg");
 
         listOfBooks.add(book1);
         listOfBooks.add(book2);

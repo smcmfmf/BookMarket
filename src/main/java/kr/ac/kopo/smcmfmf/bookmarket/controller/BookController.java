@@ -103,7 +103,7 @@ public class BookController {
         response.setContentType("application/download");
         response.setHeader("Content-Disposition", "attachment; filename=\"" + paramKey + "\"");
         response.setContentLength((int) imageFile.length());
-        OutputStream os = response.getOutputStream(); // 출력 스트림 생성
+        OutputStream os = response.getOutputStream(); // 출력 스트림으로 파일 반환
         FileInputStream fis = new FileInputStream(imageFile);
         FileCopyUtils.copy(fis, os);
         fis.close();

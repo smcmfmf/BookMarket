@@ -70,7 +70,7 @@ public class BookController {
     public String requestBooksByCategory(@PathVariable("category")String category, Model model) {
         List<Book> booksByCategory = bookService.getBookListByCategory(category);
         if(booksByCategory == null || booksByCategory.isEmpty()) {
-            throw new CategoryException(); // 해당되는 도서 분야가 없다면 강제로 예외를 발생함
+            throw new CategoryException(category); // 해당되는 도서 분야가 없다면 강제로 예외를 발생함
         }
         
         model.addAttribute("bookList", booksByCategory);
@@ -143,7 +143,7 @@ public class BookController {
         ModelAndView mav = new ModelAndView();
         mav.addObject("InvalidBookId", e.getBookId());
         mav.addObject("Exception", e.toString()); // Http 에러 코드 출력
-        mav.addObject("Url", request.getRequestURL()+"?"+request.getQueryString()); // 오류가 발생한 URL을 출력함 
+        mav.addObject("Url", request.getRequestURL()+"?"+request.getQueryString()); // 오류가 발생한 URL을 출력함
         mav.setViewName("errorBook");
         return mav;
     }

@@ -1,8 +1,11 @@
 package kr.ac.kopo.smcmfmf.bookmarket.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import kr.ac.kopo.smcmfmf.bookmarket.domain.Book;
+import kr.ac.kopo.smcmfmf.bookmarket.exception.BookIdException;
+import kr.ac.kopo.smcmfmf.bookmarket.exception.CategoryException;
 import kr.ac.kopo.smcmfmf.bookmarket.service.BookService;
 import kr.ac.kopo.smcmfmf.bookmarket.validator.BookValidator;
 import kr.ac.kopo.smcmfmf.bookmarket.validator.UnitsInStockValidator;
@@ -66,6 +69,10 @@ public class BookController {
     @GetMapping("/{category}")
     public String requestBooksByCategory(@PathVariable("category")String category, Model model) {
         List<Book> booksByCategory = bookService.getBookListByCategory(category);
+        if(booksByCategory == null || booksByCategory.isEmpty()) {
+            throw new CategoryException(); // 해당되는 도서 분야가 없다면 강제로 예외를 발생함
+        }
+        
         model.addAttribute("bookList", booksByCategory);
         return "books";
     }
@@ -129,5 +136,15 @@ public class BookController {
 //        binder.setValidator(unitsInStockValidator);
         binder.setValidator(bookValidator);
         binder.setAllowedFields("bookId", "name", "unitPrice","author", "description", "publisher", "category", "unitsInStock", "releaseDate", "condition", "bookImage");
+    }
+
+    @ExceptionHandler(value = {BookIdException.class})
+    public ModelAndView handleException(HttpServletRequest request, BookIdException e) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("InvalidBookId", e.getBookId());
+        mav.addObject("Exception", e.toString()); // Http 에러 코드 출력
+        mav.addObject("Url", request.getRequestURL()+"?"+request.getQueryString()); // 오류가 발생한 URL을 출력함 
+        mav.setViewName("errorBook");
+        return mav;
     }
 }

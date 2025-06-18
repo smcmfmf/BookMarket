@@ -34,6 +34,14 @@ public class CartRepositoryImpl implements CartRepository {
         if(!listOfCarts.containsKey(cartId)) {
             throw new IllegalArgumentException("장바구니가 존재하지 않아 목록을 업데이트할 수 없습니다.");
         }
-        listOfCarts.put(cartId, cart);
+        listOfCarts.put(cartId, cart); // 해당되는 카드에 목록을 추가
+    }
+
+    @Override
+    public void delete(String cartId) {
+        if(!listOfCarts.containsKey(cartId)){
+            throw new IllegalArgumentException("장바구니가 존재하지 않아 목록을 업데이트할 수 없습니다.");
+        }
+        listOfCarts.remove(cartId);
     }
 }

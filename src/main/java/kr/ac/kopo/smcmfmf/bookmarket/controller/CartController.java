@@ -1,9 +1,15 @@
 package kr.ac.kopo.smcmfmf.bookmarket.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import kr.ac.kopo.smcmfmf.bookmarket.domain.Book;
 import kr.ac.kopo.smcmfmf.bookmarket.domain.Cart;
+import kr.ac.kopo.smcmfmf.bookmarket.domain.CartItem;
+import kr.ac.kopo.smcmfmf.bookmarket.exception.BookIdException;
+import kr.ac.kopo.smcmfmf.bookmarket.service.BookService;
 import kr.ac.kopo.smcmfmf.bookmarket.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
     @Autowired
     private CartService cartService;
+    @Autowired
+    private BookService bookService;
 
     @GetMapping
     public String requestCartId(HttpServletRequest request) {
@@ -39,5 +47,27 @@ public class CartController {
     public @ResponseBody Cart read(@PathVariable(value = "cartId") String cartId) {
         System.out.println("Call read()"); // 콘솔창에 카트 목록 출력
         return cartService.read(cartId);
+    }
+    
+    @PutMapping("/book/{bookId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT) // 콘텐츠가 없을 때
+    public void addCartByNewItem(@PathVariable("bookId") String bookId, HttpServletRequest request) {
+        String sessionId = request.getSession().getId(); // 세션 ID가 있다면 반환
+        Cart cart = cartService.read(sessionId);
+
+        if(cart == null)
+        {
+            cart = cartService.create(new Cart(sessionId)); // 카트 생성
+        }
+
+        Book book = bookService.getBookById(bookId);
+        if(book == null)
+        {
+            throw new IllegalArgumentException(new BookIdException(bookId)); // Book이 없을 때
+        }
+
+        cart.addCartItem(new CartItem(book));
+
+        cartService.update(sessionId, cart);
     }
 }

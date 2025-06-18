@@ -10,7 +10,7 @@ import java.util.Map;
 public class CartRepositoryImpl implements CartRepository {
     private Map<String, Cart> listOfCarts;
 
-    public CartRepositoryImpl(Map<String, Cart> listOfCartMap) {
+    public CartRepositoryImpl() {
         listOfCarts = new HashMap<String, Cart>();
     }
 
@@ -27,5 +27,13 @@ public class CartRepositoryImpl implements CartRepository {
     @Override
     public Cart read(String cartId) {
         return listOfCarts.get(cartId);
+    }
+
+    @Override
+    public void update(String cartId, Cart cart) {
+        if(!listOfCarts.containsKey(cartId)) {
+            throw new IllegalArgumentException("장바구니가 존재하지 않아 목록을 업데이트할 수 없습니다.");
+        }
+        listOfCarts.put(cartId, cart);
     }
 }

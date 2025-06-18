@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 public interface CartRepository {
     Cart create(Cart cart);
     Cart read(String cartId);
+    void update(String cartId, Cart cart); // 카트의 아이디와 카트 객체를 전달함
 }

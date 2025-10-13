@@ -37,6 +37,6 @@ public class CartServiceImpl implements CartService{
         if(cart == null || cart.getCartItems().size() == 0){
             throw new CartException(cartId);
         }
-        return null;
+        return cart;
     }
 }

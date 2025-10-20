@@ -16,6 +16,7 @@ public class ValidationConfig {
     public BookValidator bookValidator() {
         BookValidator bookValidator = new BookValidator();
         bookValidator.springValidators.add(unitsInStockValidator);
+
         return bookValidator;
     }
 }

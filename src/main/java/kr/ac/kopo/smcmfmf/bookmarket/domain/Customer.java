@@ -9,7 +9,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String customerName;
+    private String customerId;
     private String name;
     private String phone;
     @OneToOne(cascade = CascadeType.ALL)

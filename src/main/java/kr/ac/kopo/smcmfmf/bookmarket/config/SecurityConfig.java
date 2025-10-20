@@ -26,8 +26,8 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService users() {
         UserDetails admin = User.builder()
-                .username("admin") // 아이디
-                .password(passwordEncoder().encode("admin1234")) // 비밀번호를 암호화
+                .username("Admin") // 아이디
+                .password(passwordEncoder().encode("Admin1234")) // 비밀번호를 암호화
                 .roles("ADMIN") // 역할 정의
                 .build();
         return new InMemoryUserDetailsManager(admin); // 사용자 정의
@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorize -> authorize // Lamda식으로 간소화
                                 .requestMatchers("/books/add").hasRole("ADMIN")
+                                .requestMatchers("/order/list").hasRole("ADMIN")
                                 .anyRequest().permitAll()
                 )
 //                .formLogin(Customizer.withDefaults()); // 기본 로그인 폼 사용

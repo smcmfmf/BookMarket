@@ -15,85 +15,92 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/cart")
+@RequestMapping(value = "/cart")
 public class CartController {
+
     @Autowired
     private CartService cartService;
+
     @Autowired
     private BookService bookService;
 
+    @PutMapping("/{cartId}")
+    public @ResponseBody Cart read(@PathVariable(value = "cartId") String cartId) {
+        System.out.println("read");
+        return cartService.read(cartId);
+    }
+
     @GetMapping
     public String requestCartId(HttpServletRequest request) {
-        System.out.println("Call requestCartId()"); // 콘솔창에 카트 아이디 출력
-        String sessionId = request.getSession().getId();
-        return "redirect:/cart/" + sessionId; // 이동할 페이지로 리다이렉트
+        System.out.println("redirect cart After requestCartId");
+        String sessionid = request.getSession(true).getId();
+        return "redirect:/cart/"+ sessionid;
     }
 
     @PostMapping
-    public @ResponseBody Cart create(@RequestBody Cart cart) {
-        System.out.println("Call create()"); // 콘솔창에 카트 출력
-        return cartService.create(cart);
+    public @ResponseBody Cart create(@RequestBody Cart cart ) {
+        System.out.println("Cart 생성");
+        return  cartService.create(cart);
     }
-    
-    @GetMapping("/{cartId}")
-    public String requestCartList(@PathVariable(value = "cartId") String cartId, Model model) {
-        System.out.println("Call requestCartList()"); // 콘솔창에 카트 목록 출력
+
+    @GetMapping( "/{cartId}")
+    public String requestCartList(@PathVariable(value = "cartId") String cartId,  Model model) {
+        System.out.println("requestCartList ");
         Cart cart = cartService.read(cartId);
-        model.addAttribute("cart", cart); // 해당되는 카트의 목록을 모델에 추가하고, 뷰에 출력
+        model.addAttribute("cart",cart);
         return "cart";
     }
 
-    @PutMapping("{cartId}")
-    public @ResponseBody Cart read(@PathVariable(value = "cartId") String cartId) {
-        System.out.println("Call read()"); // 콘솔창에 카트 목록 출력
-        return cartService.read(cartId);
-    }
-    
+
+
+
     @PutMapping("/book/{bookId}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT) // 콘텐츠가 없을 때
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void addCartByNewItem(@PathVariable("bookId") String bookId, HttpServletRequest request) {
-        String sessionId = request.getSession().getId(); // 세션 ID가 있다면 반환
+
+        String sessionId = request.getSession(true).getId();
+
+
         Cart cart = cartService.read(sessionId);
 
         if(cart == null)
-        {
-            cart = cartService.create(new Cart(sessionId)); // 카트 생성
-        }
+            cart = cartService.create(new Cart(sessionId));
 
         Book book = bookService.getBookById(bookId);
+
         if(book == null)
-        {
-            throw new IllegalArgumentException(new BookIdException(bookId)); // Book이 없을 때
-        }
+            throw new IllegalArgumentException(new BookIdException(bookId));
 
         cart.addCartItem(new CartItem(book));
 
         cartService.update(sessionId, cart);
+
     }
 
     @DeleteMapping("/book/{bookId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void removeCartByItem(@PathVariable("bookId") String bookId, HttpServletRequest request) {
+
+
         String sessionId = request.getSession(true).getId();
         Cart cart = cartService.read(sessionId);
-
-        if(cart == null) {
+        if(cart== null)
             cart = cartService.create(new Cart(sessionId));
-        }
-
         Book book = bookService.getBookById(bookId);
-        if(book == null) {
+        if(book == null)
             throw new IllegalArgumentException(new BookIdException(bookId));
-        }
 
         cart.removeCartItem(new CartItem(book));
 
         cartService.update(sessionId, cart);
+
     }
 
     @DeleteMapping("/{cartId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteCartList(@PathVariable(value = "cartId") String cartId) {
+    public void deleteCartList(@PathVariable("cartId") String cartId) {
+
         cartService.delete(cartId);
     }
+
 }

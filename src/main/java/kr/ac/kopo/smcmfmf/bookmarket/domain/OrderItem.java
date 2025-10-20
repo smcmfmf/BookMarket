@@ -14,6 +14,6 @@ public class OrderItem {
     @GeneratedValue
     private Long id;
     private String bookId; // 도서 코드
-    private int quantity; // 도서 수량
+    private int quantity; // 도서 재고량
     private BigDecimal totalPrice;
 }

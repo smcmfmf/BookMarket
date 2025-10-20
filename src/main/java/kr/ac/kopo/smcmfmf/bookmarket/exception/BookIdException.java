@@ -1,13 +1,14 @@
 package kr.ac.kopo.smcmfmf.bookmarket.exception;
 
-public class BookIdException extends RuntimeException {
-    private String bookId;
-    public BookIdException(String bookId) {
-        super();
-        this.bookId = bookId;
-    }
+import lombok.Data;
 
-    public String getBookId() {
-        return bookId;
+@Data
+@SuppressWarnings("serial")
+public class BookIdException extends RuntimeException {
+
+    private String bookId;
+
+    public BookIdException(String bookId) { //생성자
+        this.bookId = bookId;
     }
 }

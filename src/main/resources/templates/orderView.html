@@ -18,12 +18,12 @@
 	<div class="p-5 mb-4 bg-body-tertiary rounded-3">
  		<div class="container-fluid py-5">
 			<h1 class="display-5 fw-bold">주문 상세 정보</h1>
-			<p class="col-md-8 fs-4">BookMarket</p>       
+			<p class="col-mb-8 fs-4">BookMarket</p>
 		</div>
 	</div>
 
  	<div class="row align-items-md-stretch">
-		<div class="container col-md-10 py-5" style="background: #cdf1fb">
+		<div class="container col-mb-10 py-5" style="background: #cdf1fb">
             <div class="row text-left">
                 <div class="col-md-6 py-3">
                     <b>배송 주소</b><br>
@@ -56,7 +56,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <div class="col-md-4" th:each="cartItem : ${order.orderItems}">
+                            <div class="col-mb-4" th:each="cartItem : ${order.orderItems}">
                                 <tr>
                                     <td>
                                         <em th:each="book:${bookList}" th:if="${#strings.equals(book.bookId, cartItem.value.bookId)}">[[${book.name}]]</em>
@@ -71,14 +71,14 @@
                             <tr>
                                 <td></td>
                                 <td></td>
-                                <td class="text-right"><h4><a>총액 : </a></h4></td>
-                                <td class="text-right"><h4><a>[[${order.grandTotal}]]</a></h4></td>
+                                <td class="text-right"><h4><b>총액 : </b></h4></td>
+                                <td class="text-right"><h4><b>[[${order.grandTotal}]]</b></h4></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="col-md-12 py-3">
-                    <a th:href="@{'/BookMarket/order/list'}" role="button" class="btn btn-secondary">주문목록</a>
+                <div class="col-mb-12 py-3">
+                    <a th:href="@{'/order/list'}" role="button" class="btn btn-secondary">주문목록</a>
                     <a th:href="@{'/order/edit/' + ${order.orderId}}" role="button" class="btn btn-info">수정</a>
                     <a th:href="@{'/order/delete/' + ${order.orderId}}" role="button" class="btn btn-danger">삭제</a>
                 </div>

@@ -13,7 +13,7 @@ public class MemberFormDto {
     @NotBlank(message = "ID는 필수 입력 값입니다.")
     private String memberId;
     @NotBlank(message = "PW는 필수 입력 값입니다.")
-    @Length(min=8, max=16, message = "PW는 최소 8자 이상 최대 16자 이하로 입력해주세요.")
+    @Length(min=6, max=16, message = "PW는 최소 6자 이상 최대 16자 이하로 입력해주세요.")
     private String password;
     @NotBlank(message = "성명은 필수 입력 값입니다.")
     private String name;

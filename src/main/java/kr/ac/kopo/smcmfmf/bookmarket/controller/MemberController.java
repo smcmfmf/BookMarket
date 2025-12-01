@@ -46,7 +46,7 @@ public class MemberController {
             return "member/addMember";
         }
 
-        return "redirect:/members";
+        return "redirect:/";
     }
     
     // 회원 수정 폼

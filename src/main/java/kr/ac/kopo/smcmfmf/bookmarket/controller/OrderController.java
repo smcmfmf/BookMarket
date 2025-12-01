@@ -1,6 +1,5 @@
 package kr.ac.kopo.smcmfmf.bookmarket.controller;
 
-
 import kr.ac.kopo.smcmfmf.bookmarket.domain.*;
 import kr.ac.kopo.smcmfmf.bookmarket.service.BookService;
 import kr.ac.kopo.smcmfmf.bookmarket.service.CartService;
@@ -132,7 +131,7 @@ public class OrderController {
         HttpSession session = request.getSession(false);
 
         if (session != null) {
-            session.invalidate();
+            session.removeAttribute("cart");
         }
 
         return "orderFinished";
@@ -143,7 +142,7 @@ public class OrderController {
     public String requestCancelled(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            session.invalidate();
+            session.removeAttribute("cart");
         }
 
         return "orderCancelled";
